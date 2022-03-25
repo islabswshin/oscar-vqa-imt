@@ -1,0 +1,11 @@
+{
+    "project": "VQA_IMT",
+    "name": "VQA_IMT",
+    "run_type": "train",
+    "save_dir": "./wandb_result",
+    "wandb": {
+        "mode": "online",
+        "notes": "Oscar VQA_IMT",
+        "id": null
+    }
+}
