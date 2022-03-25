@@ -207,3 +207,37 @@
 2022-03-24 at 22:09:45 | INFO | ㄴTotal train batch size (w. parallel, distributed & accumulation) = 256
 2022-03-24 at 22:09:45 | INFO | ㄴTotal optimization steps = 61950.0
 2022-03-24 at 22:09:45 | INFO | ====================================================
+2022-03-25 at 12:30:00 | WARNING | Device: cuda:0, n_gpu: 1
+2022-03-25 at 12:30:00 | WARNING | Current cuda device: 0
+2022-03-25 at 12:30:00 | INFO | Task Name: vqa_text, #Labels: 3129
+2022-03-25 at 12:30:07 | INFO | Training/evaluation parameters Namespace(adam_epsilon=1e-08, add_imt=True, adjust_dp=False, adjust_loss=False, adjust_loss_epoch=-1, cache_dir='', classifier='linear', cls_hidden_scale=3, code_level='top', code_voc=512, config_name='', data_dir='data/vqa', data_label_type='mask', device=device(type='cuda', index=0), do_eval=False, do_lower_case=True, do_test=False, do_test_dev=False, do_test_dev_vqa2=False, do_test_vqa2=False, do_train=True, do_train_val=False, drop_out=0.3, eval_all_checkpoints=False, evaluate_during_training=True, fp16=False, fp16_opt_level='O1', gradient_accumulation_steps=32, hard_label=False, img_feat_dir=None, img_feat_format='pt', img_feature_dim=2054, img_feature_type='faster_r-cnn', label2ans_file=None, label_file='data/vqa/trainval_ans2label.pkl', learning_rate=5e-05, load_fast=False, local_rank=-1, logging_steps=1, loss_type='bce', max_grad_norm=1.0, max_img_seq_length=50, max_q_length=27, max_seq_length=30, max_steps=-1, model_name_or_path='pretrained_base/base/checkpoint-2000000', model_type='bert', n_gpu=1, no_cuda=False, num_train_epochs=25.0, output_dir='results', output_mode='classification', overwrite_cache=False, overwrite_output_dir=False, per_gpu_eval_batch_size=256, per_gpu_train_batch_size=8, philly=False, save_after_epoch=-1, save_epoch=1, save_steps=-1, scheduler='linear', seed=88, server_ip='', server_port='', task_name='vqa_text', tokenizer_name='', txt_data_dir='data/vqa', use_vg=False, use_vg_dev=False, wandb_cfg=None, warmup_steps=0, weight_decay=0.05, workers=0)
+2022-03-25 at 12:30:07 | INFO | Info: loading val features using 0.31 secs
+2022-03-25 at 12:30:07 | INFO | val Data Examples: 10402
+2022-03-25 at 12:30:32 | WARNING | Device: cuda:0, n_gpu: 1
+2022-03-25 at 12:30:32 | WARNING | Current cuda device: 0
+2022-03-25 at 12:30:32 | INFO | Task Name: vqa_text, #Labels: 3129
+2022-03-25 at 12:30:35 | INFO | Training/evaluation parameters Namespace(adam_epsilon=1e-08, add_imt=True, adjust_dp=False, adjust_loss=False, adjust_loss_epoch=-1, cache_dir='', classifier='linear', cls_hidden_scale=3, code_level='top', code_voc=512, config_name='', data_dir='data/vqa', data_label_type='mask', device=device(type='cuda', index=0), do_eval=True, do_lower_case=True, do_test=False, do_test_dev=False, do_test_dev_vqa2=False, do_test_vqa2=False, do_train=False, do_train_val=False, drop_out=0.3, eval_all_checkpoints=False, evaluate_during_training=True, fp16=False, fp16_opt_level='O1', gradient_accumulation_steps=1, hard_label=False, img_feat_dir=None, img_feat_format='pt', img_feature_dim=2054, img_feature_type='faster_r-cnn', label2ans_file=None, label_file='data/vqa/trainval_ans2label.pkl', learning_rate=5e-05, load_fast=False, local_rank=-1, logging_steps=4000, loss_type='bce', max_grad_norm=1.0, max_img_seq_length=50, max_seq_length=128, max_steps=-1, model_name_or_path='pretrained_base/base/checkpoint-2000000', model_type='bert', n_gpu=1, no_cuda=False, num_train_epochs=25.0, output_dir='pretrained_base/base/checkpoint-2000000', output_mode='classification', overwrite_cache=False, overwrite_output_dir=False, per_gpu_eval_batch_size=256, per_gpu_train_batch_size=32, philly=False, save_after_epoch=-1, save_epoch=1, save_steps=-1, scheduler='linear', seed=88, server_ip='', server_port='', task_name='vqa_text', tokenizer_name='', txt_data_dir='data/vqa', use_vg=False, use_vg_dev=False, wandb_cfg=None, warmup_steps=0, weight_decay=0.05, workers=0)
+2022-03-25 at 12:30:36 | INFO | Info: loading val features using 0.27 secs
+2022-03-25 at 12:30:36 | INFO | val Data Examples: 10402
+2022-03-25 at 12:30:36 | INFO | Evaluate the following checkpoints: %s
+2022-03-25 at 12:30:39 | INFO | ***** Running evaluation  *****
+2022-03-25 at 12:30:39 | INFO |   Num examples = 10402
+2022-03-25 at 12:30:39 | INFO |   Batch size = 256
+2022-03-25 at 15:58:18 | WARNING | Device: cuda:0, n_gpu: 1
+2022-03-25 at 15:58:18 | WARNING | Current cuda device: 0
+2022-03-25 at 15:58:18 | INFO | Task Name: vqa_text, #Labels: 3129
+2022-03-25 at 15:58:24 | INFO | Training/evaluation parameters Namespace(adam_epsilon=1e-08, add_imt=True, adjust_dp=False, adjust_loss=False, adjust_loss_epoch=-1, cache_dir='', classifier='linear', cls_hidden_scale=3, code_level='top', code_voc=512, config_name='', data_dir='data/vqa', data_label_type='mask', device=device(type='cuda', index=0), do_eval=False, do_lower_case=True, do_test=False, do_test_dev=False, do_test_dev_vqa2=False, do_test_vqa2=False, do_train=True, do_train_val=False, drop_out=0.3, eval_all_checkpoints=False, evaluate_during_training=True, fp16=False, fp16_opt_level='O1', gradient_accumulation_steps=32, hard_label=False, img_feat_dir=None, img_feat_format='lmdb', img_feature_dim=2054, img_feature_type='faster_r-cnn', label2ans_file=None, label_file='data/vqa/trainval_ans2label.pkl', learning_rate=5e-05, load_fast=False, local_rank=-1, logging_steps=1, loss_type='bce', max_grad_norm=1.0, max_img_seq_length=50, max_q_length=27, max_seq_length=30, max_steps=-1, model_name_or_path='pretrained_base/base/checkpoint-2000000', model_type='bert', n_gpu=1, no_cuda=False, num_train_epochs=25.0, output_dir='results', output_mode='classification', overwrite_cache=False, overwrite_output_dir=False, per_gpu_eval_batch_size=256, per_gpu_train_batch_size=8, philly=False, save_after_epoch=-1, save_epoch=1, save_steps=-1, scheduler='linear', seed=88, server_ip='', server_port='', task_name='vqa_text', tokenizer_name='', txt_data_dir='data/vqa', use_vg=False, use_vg_dev=False, wandb_cfg=None, warmup_steps=0, weight_decay=0.05, workers=0)
+2022-03-25 at 15:58:24 | INFO | Info: loading val features using 0.02 secs
+2022-03-25 at 15:58:24 | INFO | val Data Examples: 10402
+2022-03-25 at 15:58:24 | INFO | Info: loading train features using 0.07 secs
+2022-03-25 at 15:58:30 | INFO | train Data Examples: 634516
+2022-03-25 at 15:58:30 | INFO | Linear Scheduler (61950.0) with Warm Up (0) Steps
+2022-03-25 at 15:58:30 | INFO | ***************** Running training *****************
+2022-03-25 at 15:58:30 | INFO | =================  training info  ==================
+2022-03-25 at 15:58:30 | INFO | ㄴNum examples = 634516
+2022-03-25 at 15:58:30 | INFO | ㄴNum Epochs = 25.0
+2022-03-25 at 15:58:30 | INFO | ㄴInstantaneous batch size per GPU = 8
+2022-03-25 at 15:58:30 | INFO | ㄴGradient Accumulation steps = 32
+2022-03-25 at 15:58:30 | INFO | ㄴTotal train batch size (w. parallel, distributed & accumulation) = 256
+2022-03-25 at 15:58:30 | INFO | ㄴTotal optimization steps = 61950.0
+2022-03-25 at 15:58:30 | INFO | ====================================================

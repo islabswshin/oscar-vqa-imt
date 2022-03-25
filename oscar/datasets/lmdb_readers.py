@@ -11,8 +11,8 @@ import pickle
 import random
 from typing import Dict, List, Tuple
 
-import cv2
 import lmdb
+import torch
 from loguru import logger
 from torch.utils.data import Dataset
 
@@ -36,38 +36,20 @@ class VQA_pt_Reader(Dataset):
     split: str, optional (default = "train")
         Which split (from COCO 2017 version) to read. One of ``{"train", "val"}``.
     """
-    def __init__(self, root: str = "datasets/coco", split: str = "train"):
+    def __init__(self, root: str = "data/vqa", split: str = "train"):
 
-        image_dir = os.path.join(root, f"{split}2017")
-
-        # Make a tuple of image id and its filename, get image_id from its
-        # filename (assuming directory has images with names in COCO2017 format).
-        image_filenames = glob.glob(os.path.join(image_dir, "*.jpg"))
-        self.id_filename: List[Tuple[ImageID, str]] = [
-            (int(os.path.basename(name)[:-4]), name) for name in image_filenames
-        ]
-
-        # Make a mapping between image_id and its captions.
-        _captions = json.load(
-            open(os.path.join(root, "annotations", f"captions_{split}2017.json"))
-        )
-        self._id_to_captions: Dict[ImageID, Captions] = defaultdict(list)
-
-        for ann in _captions["annotations"]:
-            self._id_to_captions[ann["image_id"]].append(ann["caption"])
+        image_dir = os.path.join(root, f"{split}_img_frcnn_feats.pt")
+        self.image_file = torch.load(image_dir)
+        self.image_key = list(self.image_file.keys())
 
     def __len__(self):
-        return len(self.id_filename)
+        return len(self.image_file)
 
     def __getitem__(self, idx: int):
-        image_id, filename = self.id_filename[idx]
-
-        # shape: (height, width, channels), dtype: uint8
-        image = cv2.imread(filename)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        captions = self._id_to_captions[image_id]
-
-        return {"image_id": image_id, "image": image, "captions": captions}
+        return {
+            "image_id": self.image_key[idx],
+            "image": self.image_file[self.image_key[idx]]
+        }
 
 
 class LmdbReader(Dataset):
@@ -104,12 +86,8 @@ class LmdbReader(Dataset):
         Make sure to set this only for training, not validation.
     """
 
-    def __init__(self, lmdb_path: str, shuffle: bool = True, percentage: float = 100):
-        self.lmdb_path = lmdb_path
-        self.shuffle = shuffle
-
-        assert percentage > 0, "Cannot load dataset with 0 percent original size."
-        self.percentage = percentage
+    def __init__(self, lmdb_path: str):
+        self.lmdb_path = lmdb_path + ".lmdb"
 
         # fmt: off
         # Create an LMDB transaction right here. It will be aborted when this
@@ -121,26 +99,10 @@ class LmdbReader(Dataset):
         self.db_txn = env.begin()
 
         # Form a list of LMDB keys numbered from 0 (as binary strings).
+        self.img_id_to_idx = json.load(open(lmdb_path + "_idx_to_img_id.json"))
         self._keys = [
             f"{i}".encode("ascii") for i in range(env.stat()["entries"])
         ]
-        # fmt: on
-
-        # If data percentage < 100%, randomly retain K% keys. This will be
-        # deterministic based on random seed.
-        if percentage < 100.0:
-            retain_k: int = int(len(self._keys) * percentage / 100.0)
-            random.shuffle(self._keys)
-            self._keys = self._keys[:retain_k]
-            logger.info(f"Retained {retain_k} datapoints for training!")
-
-        # A seed to deterministically shuffle at the start of epoch. This is
-        # set externally through `set_shuffle_seed`.
-        self.shuffle_seed = 0
-
-    def set_shuffle_seed(self, seed: int):
-        r"""Set random seed for shuffling data."""
-        self.shuffle_seed = seed
 
     def get_keys(self) -> List[bytes]:
         r"""Return list of keys, useful while saving checkpoint."""
@@ -173,8 +135,9 @@ class LmdbReader(Dataset):
     def __len__(self):
         return len(self._keys)
 
-    def __getitem__(self, idx: int):
+    def __getitem__(self, img_id: int):
+        idx = self.img_id_to_idx[f"{img_id}"]
         datapoint_pickled = self.db_txn.get(self._keys[idx])
-        image_id, image, captions = pickle.loads(datapoint_pickled)
+        image_id, image_feature = pickle.loads(datapoint_pickled)
 
-        return image_id, image, captions
+        return image_id, image_feature

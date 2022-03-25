@@ -10,6 +10,9 @@ import copy, time, json
 import base64
 
 import sys
+
+from oscar.datasets.lmdb_readers import LmdbReader
+
 sys.path.insert(0, '.')
 import wandb
 import numpy as np
@@ -120,6 +123,14 @@ class VQADataset(Dataset):
                         #     print(f"My rank is {dist.get_rank()}, C3")
             elif args.img_feat_format == 'tsv':
                 self.load_img_tsv_features()
+
+            elif args.img_feat_format == 'lmdb':
+                self.reader = LmdbReader(os.path.join(args.data_dir, 'lmdb/{}_img_frcnn_feats'.format(name)))
+
+
+
+
+
         elif args.img_feature_type == 'mask_r-cnn':
             self.img_features = torch.load(os.path.join(args.data_dir, '{}_img_mask_rcnn_feats.pt'.format(name)))
         elif args.img_feature_type.startswith('dis_code'): #in ['dis_code', 'dis_code_t']: # discrete code
@@ -356,6 +367,8 @@ class VQADataset(Dataset):
             elif self.args.img_feat_format == 'tsv':
                 img_features = self.get_img_feature(str(example.img_key))
                 img_feat = torch.from_numpy(img_features)
+            elif self.args.img_feat_format == 'lmdb':
+                img_feat = self.reader[example.img_key]
 
             if img_feat.shape[0] > self.args.max_img_seq_length:
                 img_feat = img_feat[0:self.args.max_img_seq_length, ]
